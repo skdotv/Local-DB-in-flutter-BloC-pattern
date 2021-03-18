@@ -300,11 +300,13 @@ class ReportMoorModelData extends DataClass
   final String description;
   final String imagepath;
   final String username;
+  final int status;
   ReportMoorModelData(
       {@required this.id,
       @required this.description,
       @required this.imagepath,
-      @required this.username});
+      @required this.username,
+      @required this.status});
   factory ReportMoorModelData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -319,6 +321,7 @@ class ReportMoorModelData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}imagepath']),
       username: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}username']),
+      status: intType.mapFromDatabaseResponse(data['${effectivePrefix}status']),
     );
   }
   @override
@@ -336,6 +339,9 @@ class ReportMoorModelData extends DataClass
     if (!nullToAbsent || username != null) {
       map['username'] = Variable<String>(username);
     }
+    if (!nullToAbsent || status != null) {
+      map['status'] = Variable<int>(status);
+    }
     return map;
   }
 
@@ -351,6 +357,8 @@ class ReportMoorModelData extends DataClass
       username: username == null && nullToAbsent
           ? const Value.absent()
           : Value(username),
+      status:
+          status == null && nullToAbsent ? const Value.absent() : Value(status),
     );
   }
 
@@ -362,6 +370,7 @@ class ReportMoorModelData extends DataClass
       description: serializer.fromJson<String>(json['description']),
       imagepath: serializer.fromJson<String>(json['imagepath']),
       username: serializer.fromJson<String>(json['username']),
+      status: serializer.fromJson<int>(json['status']),
     );
   }
   @override
@@ -372,16 +381,22 @@ class ReportMoorModelData extends DataClass
       'description': serializer.toJson<String>(description),
       'imagepath': serializer.toJson<String>(imagepath),
       'username': serializer.toJson<String>(username),
+      'status': serializer.toJson<int>(status),
     };
   }
 
   ReportMoorModelData copyWith(
-          {int id, String description, String imagepath, String username}) =>
+          {int id,
+          String description,
+          String imagepath,
+          String username,
+          int status}) =>
       ReportMoorModelData(
         id: id ?? this.id,
         description: description ?? this.description,
         imagepath: imagepath ?? this.imagepath,
         username: username ?? this.username,
+        status: status ?? this.status,
       );
   @override
   String toString() {
@@ -389,7 +404,8 @@ class ReportMoorModelData extends DataClass
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('imagepath: $imagepath, ')
-          ..write('username: $username')
+          ..write('username: $username, ')
+          ..write('status: $status')
           ..write(')'))
         .toString();
   }
@@ -398,7 +414,9 @@ class ReportMoorModelData extends DataClass
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
       $mrjc(
-          description.hashCode, $mrjc(imagepath.hashCode, username.hashCode))));
+          description.hashCode,
+          $mrjc(
+              imagepath.hashCode, $mrjc(username.hashCode, status.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -406,7 +424,8 @@ class ReportMoorModelData extends DataClass
           other.id == this.id &&
           other.description == this.description &&
           other.imagepath == this.imagepath &&
-          other.username == this.username);
+          other.username == this.username &&
+          other.status == this.status);
 }
 
 class ReportMoorModelCompanion extends UpdateCompanion<ReportMoorModelData> {
@@ -414,31 +433,37 @@ class ReportMoorModelCompanion extends UpdateCompanion<ReportMoorModelData> {
   final Value<String> description;
   final Value<String> imagepath;
   final Value<String> username;
+  final Value<int> status;
   const ReportMoorModelCompanion({
     this.id = const Value.absent(),
     this.description = const Value.absent(),
     this.imagepath = const Value.absent(),
     this.username = const Value.absent(),
+    this.status = const Value.absent(),
   });
   ReportMoorModelCompanion.insert({
     this.id = const Value.absent(),
     @required String description,
     @required String imagepath,
     @required String username,
+    @required int status,
   })  : description = Value(description),
         imagepath = Value(imagepath),
-        username = Value(username);
+        username = Value(username),
+        status = Value(status);
   static Insertable<ReportMoorModelData> custom({
     Expression<int> id,
     Expression<String> description,
     Expression<String> imagepath,
     Expression<String> username,
+    Expression<int> status,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (description != null) 'description': description,
       if (imagepath != null) 'imagepath': imagepath,
       if (username != null) 'username': username,
+      if (status != null) 'status': status,
     });
   }
 
@@ -446,12 +471,14 @@ class ReportMoorModelCompanion extends UpdateCompanion<ReportMoorModelData> {
       {Value<int> id,
       Value<String> description,
       Value<String> imagepath,
-      Value<String> username}) {
+      Value<String> username,
+      Value<int> status}) {
     return ReportMoorModelCompanion(
       id: id ?? this.id,
       description: description ?? this.description,
       imagepath: imagepath ?? this.imagepath,
       username: username ?? this.username,
+      status: status ?? this.status,
     );
   }
 
@@ -470,6 +497,9 @@ class ReportMoorModelCompanion extends UpdateCompanion<ReportMoorModelData> {
     if (username.present) {
       map['username'] = Variable<String>(username.value);
     }
+    if (status.present) {
+      map['status'] = Variable<int>(status.value);
+    }
     return map;
   }
 
@@ -479,7 +509,8 @@ class ReportMoorModelCompanion extends UpdateCompanion<ReportMoorModelData> {
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('imagepath: $imagepath, ')
-          ..write('username: $username')
+          ..write('username: $username, ')
+          ..write('status: $status')
           ..write(')'))
         .toString();
   }
@@ -537,8 +568,21 @@ class $ReportMoorModelTable extends ReportMoorModel
     );
   }
 
+  final VerificationMeta _statusMeta = const VerificationMeta('status');
+  GeneratedIntColumn _status;
   @override
-  List<GeneratedColumn> get $columns => [id, description, imagepath, username];
+  GeneratedIntColumn get status => _status ??= _constructStatus();
+  GeneratedIntColumn _constructStatus() {
+    return GeneratedIntColumn(
+      'status',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, description, imagepath, username, status];
   @override
   $ReportMoorModelTable get asDslTable => this;
   @override
@@ -573,6 +617,12 @@ class $ReportMoorModelTable extends ReportMoorModel
           username.isAcceptableOrUnknown(data['username'], _usernameMeta));
     } else if (isInserting) {
       context.missing(_usernameMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status'], _statusMeta));
+    } else if (isInserting) {
+      context.missing(_statusMeta);
     }
     return context;
   }

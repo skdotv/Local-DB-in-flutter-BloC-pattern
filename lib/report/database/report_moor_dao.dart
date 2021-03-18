@@ -37,6 +37,12 @@ class ReportDao extends DatabaseAccessor<AppDatabase> with _$ReportDaoMixin {
         .get();
   }
 
+  Future<List<ReportMoorModelData>> getReportDataByID(int id) async {
+    return await ((select(db.reportMoorModel)
+          ..where((tbl) => tbl.id.equals(id))))
+        .get();
+  }
+
   Future<int> deleteAll() async {
     return await delete(db.reportMoorModel).go();
   }

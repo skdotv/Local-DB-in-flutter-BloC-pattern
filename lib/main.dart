@@ -11,12 +11,12 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // appDatabase.loginDao.insertIntoLoginTable(LoginMoorModelData(
-    //     id: 1, userName: "vinod", password: "123456", role: 2));
-    // appDatabase.loginDao.insertIntoLoginTable(LoginMoorModelData(
-    //     id: 2, userName: "santosh", password: "123456", role: 2));
-    // appDatabase.loginDao.insertIntoLoginTable(LoginMoorModelData(
-    //     id: 3, userName: "Admin", password: "root", role: 1));
+    appDatabase.loginDao.insertIntoLoginTable(LoginMoorModelData(
+        id: 1, userName: "vinod", password: "123456", role: 2));
+    appDatabase.loginDao.insertIntoLoginTable(LoginMoorModelData(
+        id: 2, userName: "santosh", password: "123456", role: 2));
+    appDatabase.loginDao.insertIntoLoginTable(LoginMoorModelData(
+        id: 3, userName: "Admin", password: "root", role: 1));
 
     return MaterialApp(
       title: 'Reporting System',

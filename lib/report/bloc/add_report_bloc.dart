@@ -13,10 +13,10 @@ class ReportBloc {
 
   submitReport() async {
     ReportModel model = ReportModel(
-      description: descriptionController.valueWrapper.value,
-      imagePath: imageUploadController.valueWrapper.value,
-      username: userName,
-    );
+        description: descriptionController.valueWrapper.value,
+        imagePath: imageUploadController.valueWrapper.value,
+        username: userName,
+        status: 0);
 
     await appDatabase.reportDao.insertIntoReportTable(model.toMoor());
 

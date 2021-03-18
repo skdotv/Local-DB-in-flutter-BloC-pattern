@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:reporting_system/appcolor/appcolor.dart';
 import 'package:reporting_system/common/common_form_field.dart';
 import 'package:reporting_system/login/login_scren.dart';
@@ -164,6 +165,23 @@ class _AddReportScreenState extends State<AddReportScreen> {
       source: ImageSource.camera,
       imageQuality: 80,
     );
-    bloc.imageUploadController.sink.add(_pickedFile.path);
+    File _file = File(_pickedFile.path);
+
+    if (_file != null) {
+      int sizeInBytes = _file.lengthSync();
+      double sizeInMb = sizeInBytes / (1024 * 1024);
+      if (sizeInMb < 100) {
+        bloc.imageUploadController.sink.add(_pickedFile.path);
+      } else {
+        Fluttertoast.showToast(
+            msg: "File Size Exceeds 500mb!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: AppColor.kTextBoxFillColor,
+            textColor: AppColor.kPrimaryColor,
+            fontSize: 16.0);
+      }
+    }
   }
 }

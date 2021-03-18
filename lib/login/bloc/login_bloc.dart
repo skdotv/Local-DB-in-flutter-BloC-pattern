@@ -32,7 +32,11 @@ class LoginBloc {
     } else if (resp != 0 && resp == 1) {
       // ReportListScreen
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ReportListScreen()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => ReportListScreen(
+                    role: 1,
+                  )));
       print("authorised admin");
     } else {
       usernameController.addError("");

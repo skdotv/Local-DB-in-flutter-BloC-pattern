@@ -10,9 +10,10 @@ import 'package:reporting_system/reportList/bloc.dart';
 // ignore: must_be_immutable
 class ReportListScreen extends StatelessWidget {
   final String userName;
+  final int role;
   ReportListBloc _bloc;
 
-  ReportListScreen({Key key, this.userName}) : super(key: key);
+  ReportListScreen({Key key, this.userName, this.role = 2}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     _bloc = ReportListBloc(username: userName);
@@ -49,13 +50,44 @@ class ReportListScreen extends StatelessWidget {
                             ? Card(
                                 margin: EdgeInsets.only(top: 20),
                                 child: ListTile(
+                                  trailing: this.role == 1
+                                      ? IconButton(
+                                          icon: Icon(
+                                            snapshot.data[index].status == 0
+                                                ? Icons.check_circle
+                                                : Icons.cancel_rounded,
+                                            size: 30,
+                                            color:
+                                                snapshot.data[index].status == 0
+                                                    ? AppColor.kPrimaryColor
+                                                    : AppColor.kerrorColor,
+                                          ),
+                                          onPressed: () {
+                                            _bloc.updateStatus(
+                                                id: snapshot.data[index].id);
+                                          },
+                                        )
+                                      : SizedBox(),
                                   isThreeLine: true,
-                                  subtitle:
-                                      Text("- ${snapshot.data[index].username}",
-                                          style: TextStyle(
-                                            fontSize: CommonSize.kfontSize,
-                                            color: AppColor.kPrimaryColor,
-                                          )),
+                                  subtitle: RichText(
+                                    text: TextSpan(
+                                        style: TextStyle(
+                                          fontSize: CommonSize.kfontSize,
+                                          color: AppColor.kPrimaryColor,
+                                        ),
+                                        text: snapshot.data[index].status == 0
+                                            ? "Status : Pending"
+                                            : "Status : Active",
+                                        children: [
+                                          TextSpan(
+                                              text:
+                                                  "\n- ${snapshot.data[index].username}",
+                                              style: TextStyle(
+                                                fontSize: CommonSize.kfontSize,
+                                                color: AppColor.kPrimaryColor,
+                                              ))
+                                        ]),
+                                  ),
                                   leading: SizedBox(
                                     height: 140,
                                     width: 100,
